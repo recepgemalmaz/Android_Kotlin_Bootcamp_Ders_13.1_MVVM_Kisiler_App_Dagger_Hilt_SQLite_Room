@@ -1,0 +1,37 @@
+package com.recepgemalmaz.kisileruygulamasi.data.datasource
+
+import android.util.Log
+import com.recepgemalmaz.kisileruygulamasi.data.entity.Kisiler
+import com.recepgemalmaz.kisileruygulamasi.room.KisilerDao
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+
+class KisilerDataSources(var kdao: KisilerDao) {
+
+    suspend fun kaydet(kisi_Ad : String, kisi_Tel : String){
+        val yeniKisi = Kisiler(0, kisi_Ad, kisi_Tel)
+        kdao.kaydet(yeniKisi)
+
+    }
+    suspend fun guncelle(kisi_id : Int, kisi_ad : String, kisi_tel : String){
+        val guncellenenKisi = Kisiler(kisi_id, kisi_ad, kisi_tel)
+        kdao.guncelle(guncellenenKisi)
+    }
+
+    suspend fun sil(kisi_id : Int){
+        val silinenKisi = Kisiler(kisi_id, "", "")
+        kdao.sil(silinenKisi)
+
+    }
+    suspend fun kisileriYukle(): List<Kisiler> = withContext(Dispatchers.IO){
+
+        return@withContext kdao.kisileriYukle()
+
+    }
+    suspend fun ara(aramaKelimesi:String): List<Kisiler> = withContext(Dispatchers.IO){
+
+
+        return@withContext kdao.ara(aramaKelimesi)
+
+    }
+}
